@@ -7,7 +7,7 @@
  * is visible while it is not, but it will never report document as hidden while it is visible.
  *
  * This code exploits the fact that most such extensions block only a subset of Page Lifecycle API,
- * which notifies page of being hidden but not of being shown, while Dark Reader really cares only about
+ * which notifies page of being hidden but not of being shown, while Moonveil really cares only about
  * page being shown.
  * Specifically:
  *  - extensions block visibilitychange and blur event

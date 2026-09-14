@@ -1,22 +1,14 @@
-<h2 align="center">Contributions</h2>
+<h2 align="center">Contributing to Moonveil</h2>
 
-<p align="center">You can contribute to and help Dark Reader in many ways. Continue reading to learn how, and thank you in advance!</p>
+<p align="center">You can contribute to and help Moonveil in many ways. Continue reading to learn how, and thank you in advance!</p>
 
-## Sponsor
+Moonveil is a fork of [Dark Reader](https://github.com/darkreader/darkreader). Most of its site-fix format, dev tools, and build system come directly from that project.
 
-<a href="https://opencollective.com/darkreader/donate" target="_blank" rel="noreferrer noopener"> <img src="https://opencollective.com/darkreader/donate/button@2x.png?color=blue" width=300 /></a>
+## Disabling Moonveil on your site
 
-Please sponsor the development of Dark Reader.
+Website pages can request Moonveil to disable itself by embedding a "Moonveil lock". The "lock" is a `<meta>` tag with `name` attribute set to `darkreader-lock` which is a child of the `<head>` tag in the document. This attribute name is kept for compatibility with the upstream Dark Reader lock convention, so a single lock tag works for both extensions.
 
-## Translation
-
-[Improve or suggest](https://github.com/darkreader/darkreader/tree/main/src/_locales) a translation. See the list of [language codes](https://developer.chrome.com/webstore/i18n#localeTable) that we can support.
-
-## Disabling Dark Reader on your site
-
-Website pages can request Dark Reader to disable itself by embedding a "Dark Reader lock". The "lock" is a `<meta>` tag with `name` attribute set to `darkreader-lock` which is a child of `<head>` tag in the document.
-
-### Disabling Dark Reader statically
+### Disabling Moonveil statically
 
 Add `<meta name="darkreader-lock">` within your HTML document in `<head>` like so:
 ```html
@@ -25,9 +17,9 @@ Add `<meta name="darkreader-lock">` within your HTML document in `<head>` like s
 </head>
 ```
 
-### Disabling Dark Reader dynamically
+### Disabling Moonveil dynamically
 
-Add the "lock" dynamically like so (assuming browser already parsed enough of the document to create a `head` attribute):
+Add the "lock" dynamically like so (assuming the browser has already parsed enough of the document to create a `head` element):
 ```js
 const lock = document.createElement('meta');
 lock.name = 'darkreader-lock';
@@ -42,21 +34,23 @@ If a website is **already dark** and meets the following requirements:
 - The URL is the actual website address. No redirects of any kind are allowed.
 - The website is complete and finished. Any website in the design or development phase or any other incomplete status is not permitted. These statuses can include any placeholder web pages or verbiage about coming soon, the website being under construction, the website having moved, etc.
 
-Then you can **add it to the [dark-sites.config](https://github.com/darkreader/darkreader/blob/main/src/config/dark-sites.config) file**.
+Then you can **add it to the [dark-sites.config](https://github.com/owenpkent/moonveil/blob/main/src/config/dark-sites.config) file**.
 
 **Please maintain the alphabetical order of the websites listed in this file.**
 
 ## Fixing incorrect inversions
 
-If any **element** on a web page is **not inverted or styled correctly**, you can fix it by specifying the appropriate [**CSS selector**](https://developer.mozilla.org/docs/Web/CSS/CSS_Selectors). Use the [**dynamic-theme-fixes.config**](https://github.com/darkreader/darkreader/blob/main/src/config/dynamic-theme-fixes.config) file for Dynamic Theme mode and the [**inversion-fixes.config**](https://github.com/darkreader/darkreader/blob/main/src/config/inversion-fixes.config) file for Filter and Filter+ modes.
+If any **element** on a web page is **not inverted or styled correctly**, you can fix it by specifying the appropriate [**CSS selector**](https://developer.mozilla.org/docs/Web/CSS/CSS_Selectors). Use the [**dynamic-theme-fixes.config**](https://github.com/owenpkent/moonveil/blob/main/src/config/dynamic-theme-fixes.config) file for Dynamic Theme mode and the [**inversion-fixes.config**](https://github.com/owenpkent/moonveil/blob/main/src/config/inversion-fixes.config) file for Filter and Filter+ modes.
 
 **Please maintain the alphabetical order of the websites listed, use short selectors, and preserve the code style in these files.**
 
-You can learn how to create a fix for the appropriate Dark Reader mode below.
+You can learn how to create a fix for the appropriate mode below.
+
+> **Note:** Because these config files (and the site-fix format itself) come from upstream Dark Reader, a broadly applicable site fix - one that isn't specific to Moonveil - is often just as useful to the [upstream Dark Reader project](https://github.com/darkreader/darkreader). Upstream site fixes are merged periodically, so consider submitting general fixes there too, in addition to (or instead of) here, so all users of the format benefit.
 
 ## How to use the Dev Tools
 
-Dark Reader includes its own developer tools, allowing easier modification of its rules and quicker previews. The Dev Tools help you **fix minor issues** on a web page. These can include a dark icon on a dark background, removing a bright background, adding a white background to a transparent image, etc.
+Moonveil includes its own developer tools, allowing easier modification of its rules and quicker previews. The Dev Tools help you **fix minor issues** on a web page. These can include a dark icon on a dark background, removing a bright background, adding a white background to a transparent image, etc.
 
 Common use cases:
 
@@ -66,17 +60,13 @@ In **Filter mode**, it is a common practice to invert elements on the page that 
 
 The Dev Tools can help you fix these and other rule bugs.
 
-### Navigating to the Dark Reader Dev Tools
+### Navigating to the Dev Tools
 
-#### Video walkthrough:
-https://github.com/user-attachments/assets/76a5d9bc-7553-4e50-acf5-5a9051cec152
-
-#### Step-by-step instructions:
 - Open **Chrome Dev Tools** (`F12`) in Chrome or "Inspector" (`Ctrl+Shift+C`) in Firefox.
 - Click on **element picker** (top-left corner). It is enabled automatically in Firefox.
 - Pick an incorrectly inverted element.
 - Choose a **[selector](https://developer.mozilla.org/docs/Web/CSS/CSS_Selectors)** for that element or all similar elements (for example, if it has `class="icon small"`, the selector may look like `.icon`).
-- Click the **Dark Reader icon** to open the extension's popup window.
+- Click the Moonveil icon to open the extension's popup window.
 - Switch to the **More** tab.
 - Click the **⛭ All settings** button at the bottom.
 - Switch to the **Advanced** section on the left.
@@ -85,7 +75,7 @@ https://github.com/user-attachments/assets/76a5d9bc-7553-4e50-acf5-5a9051cec152
 - Edit or add a block containing the URL and selectors to invert, using the [rules below](#editor--rule-syntax).
 - Click **Apply**.
 - Check how the site looks both in **Light** and **Dark** modes.
-- If the **fix works**, open **[dynamic-theme-fixes.config](https://github.com/darkreader/darkreader/blob/main/src/config/dynamic-theme-fixes.config)** or **[inversion-fixes.config](https://github.com/darkreader/darkreader/blob/main/src/config/inversion-fixes.config)**.
+- If the **fix works**, open **[dynamic-theme-fixes.config](https://github.com/owenpkent/moonveil/blob/main/src/config/dynamic-theme-fixes.config)** or **[inversion-fixes.config](https://github.com/owenpkent/moonveil/blob/main/src/config/inversion-fixes.config)**.
 - Click **Edit** (requires being logged in to GitHub).
 - **Insert your fix** there (copying and pasting it from the Dev Tools). Preserve **alphabetic order** by URL.
 - Provide a **short description** of what you have done.
@@ -94,8 +84,7 @@ https://github.com/user-attachments/assets/76a5d9bc-7553-4e50-acf5-5a9051cec152
 - Once you create the pull request, GitHub Actions will run tests behind the scenes to ensure your submission has the right code style. This will take a few minutes.
 - If you see a **red cross**, click **Details** to see what is wrong and edit the existing Pull Request.
 - When you see a **green checkmark**, then everything is fine.
-- A Dark Reader developer will **review** and merge your changes, making them available to all Dark Reader users.
-
+- A Moonveil maintainer will **review** and merge your changes.
 
 ## Editor & Rule Syntax
 
@@ -123,7 +112,7 @@ IGNORE IMAGE ANALYSIS
 
 ### URL
 
-The fix starts with the domain name, like `example.com`. The `www` part should be ommited.
+The fix starts with the domain name, like `example.com`. The `www` part should be omitted.
 
 If the fix affects a particular subdomain, this exact subdomain should be specified like `sub.domain.com`.
 
@@ -138,8 +127,6 @@ example.mirror.com
 ```
 
 The use of `*` wildcard is discouraged; it can only be used as the last resort.
-
-For 
 
 | Rule | Description | Notes / Examples |
 |---|---|---|
@@ -167,7 +154,7 @@ CSS
 
 ```
 
-Here is a full table of available CSS variables:
+These variable names are kept as-is from upstream Dark Reader so the two projects' config files stay compatible. Here is a full table of available CSS variables:
 
 | Variable | Description | Use |
 |---|---|---|
@@ -205,31 +192,49 @@ CSS
 - If an inverted element contains images or other content that becomes incorrectly displayed, use the `NO INVERT` rule.
 - `REMOVE BG` removes the background image from an element and forces a black background.
 
-## Adding new features or fixing bugs
-
-If you would like to **add a new feature** to Dark Reader or **fix a bug**, please **submit an issue** in GitHub (if there is no existing one), **discuss** it with active contributors, and wait for **approval**.
+## Building and debugging
 
 To build and debug the extension, **install the [Node.js](https://nodejs.org/)** LTS version.
 Install development dependencies by running `npm install` in the project's root folder.
-Then execute `npm run debug`.
+
+### WXT build (primary)
+
+Moonveil's primary build is [WXT](https://wxt.dev/). To build for all targets:
+
+```
+npm run wxt:build
+```
+
+This produces unpacked extensions in `build/wxt/chrome-mv3`, `build/wxt/edge-mv3`, and `build/wxt/firefox-mv2`.
+
+For a live-reloading dev build:
+
+```
+npm run wxt:dev
+```
+
+(use `npm run wxt:dev:firefox` to target Firefox instead).
 
 #### Chrome and Edge
 
-- Open the `chrome://extensions` page.
-- Disable the official Dark Reader version.
-- Enable the **Developer mode**.
-- Click **Load unpacked extension** button.
-- Navigate to the project's `build/debug/chrome` folder.
+- Open the `chrome://extensions` page (or `edge://extensions`).
+- Enable **Developer mode**.
+- Click **Load unpacked extension**.
+- Navigate to `build/wxt/chrome-mv3` (or `build/wxt/edge-mv3`).
 
 #### Firefox
 
-- Open the `about:addons` page.
-- Disable the official Dark Reader version.
 - Open the `about:debugging#addons` page.
-- Click the **Load Temporary Add-on** button.
-- Open the `build/debug/firefox/manifest.json` file.
+- Click **Load Temporary Add-on**.
+- Open the `build/wxt/firefox-mv2/manifest.json` file.
 
-If you execute `npm run debug:watch` instead of `npm run debug`, it will automatically recompile the extension after making any code changes.
+### Legacy build scripts
+
+The older Rollup-based build (`npm run debug`, `npm run build`, and related scripts) still exists and is still used by parts of the toolchain and test suite. Executing `npm run debug` builds an unpacked extension into `build/debug/chrome` and `build/debug/firefox`, using the same load-unpacked steps as above. `npm run debug:watch` recompiles automatically after code changes.
+
+## Adding new features or fixing bugs
+
+If you would like to **add a new feature** to Moonveil or **fix a bug**, please **submit an issue** in GitHub (if there is no existing one), **discuss** it with active contributors, and wait for **approval**.
 
 ## Rules and recommendations
 
@@ -255,7 +260,7 @@ All comments and conversations must be held by humans.
 
 You can use any text editor or web IDE (for example, [Visual Studio Code](https://code.visualstudio.com/) or [WebStorm](https://www.jetbrains.com/webstorm/)) to edit the code.
 
-**Please preserve the code style** (e.g. whitespaces). It can be performed automatically by executing `npm run code-style`.
+**Please preserve the code style** (e.g. whitespace). It can be checked automatically by executing `npm run code-style`.
 
 Run tests by executing `npm test` to verify your changes will pass.
 

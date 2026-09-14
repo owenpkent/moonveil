@@ -1,3 +1,8 @@
+# Changelog
+
+Moonveil changes start here. The entries below this point are the upstream
+Dark Reader changelog, kept for history, and are not edited.
+
 # 4.9.131 (September 14, 2026)
 
 - Edge: Manifest V3 build.

@@ -6,13 +6,6 @@ import path from 'node:path';
 import less from 'less';
 import type {Plugin} from 'vite';
 
-// Branding is applied at build time so src/ stays mergeable with upstream.
-export const brand = {
-    name: 'Moonveil',
-    author: 'Owen Kent',
-    geckoId: 'moonveil@owenpkent',
-};
-
 const root = path.resolve(import.meta.dirname, '..');
 const src = (...p: string[]) => path.join(root, 'src', ...p);
 
@@ -151,15 +144,12 @@ export async function styles() {
 export function legacyManifest(browser: string, debug: boolean) {
     const read = (name: string) => JSON.parse(fs.readFileSync(src(name), 'utf8'));
     const patch = isChromium(browser) ? read('manifest-chrome-mv3.json') : read('manifest-firefox.json');
-    const manifest = {...read('manifest.json'), ...patch, name: brand.name, author: brand.author};
+    const manifest = {...read('manifest.json'), ...patch};
     if (isChromium(browser)) {
         delete manifest.browser_action;
-        manifest.action = {...manifest.action, default_title: brand.name};
     } else {
         // WXT emits a generated background page for scripts, equivalent to background/index.html.
         manifest.background = {scripts: ['background/index.js']};
-        manifest.browser_action = {...manifest.browser_action, default_title: brand.name};
-        manifest.browser_specific_settings.gecko.id = brand.geckoId;
     }
     if (debug) {
         manifest.version_name = 'Debug';

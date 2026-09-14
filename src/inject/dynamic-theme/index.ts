@@ -280,7 +280,7 @@ function delayedCreateShadowStaticStyleOverrides(root: ShadowRoot): void {
         // Disconnect observer immediately before making any other changes
         observer.disconnect();
 
-        // Do not make any changes unless Dark Reader's fixes have been removed
+        // Do not make any changes unless Moonveil's fixes have been removed
         for (const {type, removedNodes} of mutations) {
             if (type === 'childList') {
                 for (const {nodeName, className} of removedNodes as any) {
@@ -298,7 +298,7 @@ function delayedCreateShadowStaticStyleOverrides(root: ShadowRoot): void {
 function createShadowStaticStyleOverrides(root: ShadowRoot) {
     // The shadow DOM may not be populated yet and the custom element implementation
     // may assume that unpopulated shadow root is empty and inadvertently remove
-    // Dark Reader's overrides
+    // Moonveil's overrides
     const delayed = root.firstChild === null;
     createShadowStaticStyleOverridesInner(root);
     if (delayed) {

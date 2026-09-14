@@ -15,7 +15,7 @@ async function patchManifest(platform, debug, watch, test) {
     const manifestExtras = isPlus ? await readJSON(absolutePath(`src/plus/manifest.json`)) : {};
     const patched = {...manifest, ...manifestPatch, ...manifestExtras};
     if (debug && isMV3) {
-        patched.name = isPlus ? 'Dark Reader MV3 Plus' : 'Dark Reader MV3';
+        patched.name = isPlus ? 'Moonveil MV3 Plus' : 'Moonveil MV3';
     }
     if (isMV3) {
         patched.browser_action = undefined;

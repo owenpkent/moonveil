@@ -37,7 +37,7 @@ async function executeChildProcess(args) {
 
 function printHelp() {
     console.log([
-        'Dark Reader build utility',
+        'Moonveil build utility',
         '',
         'Usage: build [build parameters]',
         '',

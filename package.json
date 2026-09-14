@@ -1,7 +1,8 @@
 {
-  "name": "darkreader",
+  "name": "moonveil",
   "version": "4.9.131",
   "description": "Dark mode for every website",
+  "private": true,
   "scripts": {
     "api": "node --max-old-space-size=3072 tasks/cli.js build --api",
     "build": "node --max-old-space-size=3072 tasks/cli.js build --release",
@@ -18,7 +19,6 @@
     "lint": "eslint -- 'src/**/*.ts' 'src/**/*.tsx' 'tasks/**/*.js' 'tests/[!coverage]**/*.js' 'tests/**/*.ts' eslint.config.js index.d.ts",
     "lint:bundle": "(node ./tasks/check-exists.js ./build/debug/chrome || node tasks/build.js --debug --api --chrome) && eslint -- 'build/debug/chrome/**/*.js' 'darkreader.js' 'darkreader.mjs'",
     "plus-link": "cd src && ln -s ../../darkreader-plus plus",
-    "prepublishOnly": "npm test && npm run api",
     "release": "npm test && npm run lint && node tasks/cli.js build --release",
     "test": "npm run test:unit",
     "test:all": "npm run test:unit; npm run test:browser; npm run test:inject",
@@ -46,12 +46,12 @@
   "type": "module",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/darkreader/darkreader.git"
+    "url": "git+https://github.com/owenpkent/moonveil.git"
   },
-  "author": "Alexander Shutau <darkreaderapp@gmail.com> (https://darkreader.org/)",
+  "author": "Owen Kent (https://github.com/owenpkent)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/darkreader/darkreader/issues"
+    "url": "https://github.com/owenpkent/moonveil/issues"
   },
   "keywords": [
     "dark-theme",
@@ -62,11 +62,7 @@
     "accessibility",
     "eye-care"
   ],
-  "homepage": "https://darkreader.org/",
-  "funding": {
-    "type": "opencollective",
-    "url": "https://opencollective.com/darkreader/donate"
-  },
+  "homepage": "https://github.com/owenpkent/moonveil",
   "dependencies": {
     "malevic": "0.20.3"
   },

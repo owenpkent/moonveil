@@ -11,7 +11,6 @@ export interface ExtensionData {
     isReady: boolean;
     isAllowedFileSchemeAccess: boolean;
     settings: UserSettings;
-    news: News[];
     shortcuts: Shortcuts;
     colorScheme: ParsedColorSchemeConfig;
     forcedScheme: 'dark' | 'light' | null;
@@ -33,13 +32,9 @@ export interface ExtensionActions {
     setTheme(theme: Partial<Theme>): void;
     setShortcut(command: string, shortcut: string): Promise<string | null>;
     toggleActiveTab(): void;
-    markNewsAsRead(ids: string[]): void;
-    markNewsAsDisplayed(ids: string[]): void;
     loadConfig(options: {local: boolean}): void;
     applyDevFixes(type: DevFixType, text: string): Promise<void>;
     resetDevFixes(type: DevFixType): void;
-    startActivation(email: string, key: string): void;
-    resetActivation(): void;
     hideHighlights(ids: string[]): void;
 }
 
@@ -246,17 +241,6 @@ export interface StaticTheme {
     noImage?: string[];
     invert?: string[];
     noCommon?: boolean;
-}
-
-export interface News {
-    id: string;
-    date: string;
-    url: string;
-    headline: string;
-    read?: boolean;
-    displayed?: boolean;
-    badge?: string;
-    icon?: string;
 }
 
 // These values need to match those in Manifest

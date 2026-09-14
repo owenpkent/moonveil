@@ -1,13 +1,12 @@
 import {canInjectScript, keepListeningToEvents} from '../background/utils/extension-api';
-import type {ColorScheme, DebugMessageBGtoCS, DebugMessageBGtoUI, DebugMessageCStoBG, ExtensionData, News, UserSettings} from '../definitions';
-import {getHelpURL, UNINSTALL_URL} from '../utils/links';
+import type {ColorScheme, DebugMessageBGtoCS, DebugMessageBGtoUI, DebugMessageCStoBG, ExtensionData, UserSettings} from '../definitions';
+import {getHelpURL} from '../utils/links';
 import {emulateColorScheme, isSystemDarkModeEnabled} from '../utils/media-query';
 import {DebugMessageTypeBGtoCS, DebugMessageTypeBGtoUI, DebugMessageTypeCStoBG} from '../utils/message';
 import {isFirefox} from '../utils/platform';
 
 import {Extension} from './extension';
 import {makeChromiumHappy} from './make-chromium-happy';
-import {setNewsForTesting} from './newsmaker';
 import {ASSERT} from './utils/log';
 import {sendLog} from './utils/sendLog';
 
@@ -43,10 +42,6 @@ type TestMessage = {
     type: 'firefox-emulateColorScheme';
     data: ColorScheme;
     id: number;
-} | {
-    type: 'setNews';
-    data: News[];
-    id: number;
 };
 
 // Start extension
@@ -55,7 +50,7 @@ const extension = Extension.start();
 const welcome = `  /''''\\
  (0)==(0)
 /__||||__\\
-Welcome to Dark Reader!`;
+Welcome to Moonveil!`;
 console.log(welcome);
 
 declare const __DEBUG__: boolean;
@@ -132,8 +127,6 @@ if (__WATCH__) {
             chrome.tabs.create({url: getHelpURL()});
         }
     });
-
-    chrome.runtime.setUninstallURL(UNINSTALL_URL);
 }
 
 if (__TEST__) {
@@ -186,10 +179,6 @@ if (__TEST__) {
                     chrome.storage[region].get(keys as any, respond);
                     break;
                 }
-                case 'setNews':
-                    setNewsForTesting(message.data);
-                    respond();
-                    break;
                 case 'firefox-getColorScheme': {
                     ASSERT('Firefox-specific function', isFirefox);
                     respond(isSystemDarkModeEnabled() ? 'dark' : 'light');

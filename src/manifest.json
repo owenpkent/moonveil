@@ -1,22 +1,22 @@
 {
     "manifest_version": 2,
-    "name": "Dark Reader",
+    "name": "Moonveil",
     "version": "4.9.131",
-    "author": "Alexander Shutau",
+    "author": "Owen Kent",
     "description": "__MSG_extension_description__",
     "default_locale": "en",
     "browser_action": {
-        "default_title": "Dark Reader",
+        "default_title": "Moonveil",
         "default_icon": {
-            "38": "icons/dr_active_38.png",
-            "19": "icons/dr_active_19.png"
+            "38": "icons/moonveil_active_38.png",
+            "19": "icons/moonveil_active_19.png"
         },
         "default_popup": "ui/popup/index.html"
     },
     "icons": {
-        "16": "icons/dr_16.png",
-        "48": "icons/dr_48.png",
-        "128": "icons/dr_128.png"
+        "16": "icons/moonveil_16.png",
+        "48": "icons/moonveil_48.png",
+        "128": "icons/moonveil_128.png"
     },
     "background": {
         "persistent": true,
