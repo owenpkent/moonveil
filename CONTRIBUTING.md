@@ -232,36 +232,33 @@ npm run wxt:dev
 
 The older Rollup-based build (`npm run debug`, `npm run build`, and related scripts) still exists and is still used by parts of the toolchain and test suite. Executing `npm run debug` builds an unpacked extension into `build/debug/chrome` and `build/debug/firefox`, using the same load-unpacked steps as above. `npm run debug:watch` recompiles automatically after code changes.
 
+## Running tests
+
+```
+npm test                  # unit tests
+npm run test:inject       # injection tests in Chrome and Firefox (Karma)
+npm run test:chrome-mv3   # end-to-end tests on the Chromium MV3 build
+npm run test:firefox      # end-to-end tests on the Firefox build
+```
+
+End-to-end tests launch a visible browser. Set `BROWSER_TESTS_HEADLESS=1` to run them without a display, and `CHROME_BIN` or `FIREFOX_BIN` to choose a browser binary. Branded Google Chrome no longer loads unpacked extensions from the command line, so use [Chrome for Testing](https://developer.chrome.com/blog/chrome-for-testing).
+
 ## Adding new features or fixing bugs
 
-If you would like to **add a new feature** to Moonveil or **fix a bug**, please **submit an issue** in GitHub (if there is no existing one), **discuss** it with active contributors, and wait for **approval**.
+For anything beyond a small fix, **open an issue or a discussion first** so the approach can be agreed on before you invest time in it. Bugs in how a single website looks should use the **Broken Website** issue template.
 
 ## Rules and recommendations
 
-If a change requires more than **10 lines of code**,
-please submit an issue on GitHub (if there is no existing one),
-and **discuss your solution and approach** with active contributors,
-before performing further changes.
+**One purpose per pull request.** Keep changes focused and as small as the problem allows. Unrelated refactors belong in their own pull request.
 
-**Keep the changes simple**.
-Please use as little code as possible.
-A single pull request should have a single purpose.
+**Make sure it works.** Describe how you tested the change, add or update tests where it makes sense, and run `npm test` and `npm run lint` before submitting.
 
-**Low effort contributions** are not allowed.
-A contributor should ensure the changes work and solve a real problem.
+**AI-assisted contributions are welcome.** You may use AI tools to write code, tests, or documentation. You are accountable for the result: you must understand every line you submit, have tested it, and be able to answer questions about it. Say in the pull request description which parts were AI-assisted.
 
-Code changes predominantly **generated with AI are not allowed**.
-All comments and conversations must be held by humans.
+**Dependencies and build changes** are fine when they are justified. Explain why in the pull request, and prefer small, well-maintained, permissively licensed packages. Moonveil is MIT licensed, so contributions must be compatible with it.
 
-**The following changes are STRICTLY FORBIDDEN**
- - adding external dependencies
- - changing the build process
- - modifying `package.json` and `package-lock.json`
-
-You can use any text editor or web IDE (for example, [Visual Studio Code](https://code.visualstudio.com/) or [WebStorm](https://www.jetbrains.com/webstorm/)) to edit the code.
+**Upstream sync.** Moonveil periodically merges [Dark Reader](https://github.com/darkreader/darkreader). Avoid reformatting or moving upstream code without a reason, since it makes those merges harder.
 
 **Please preserve the code style** (e.g. whitespace). It can be checked automatically by executing `npm run code-style`.
-
-Run tests by executing `npm test` to verify your changes will pass.
 
 If your code is ready to be reviewed and merged, please submit a **pull request** and wait for a **review**.

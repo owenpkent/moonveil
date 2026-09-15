@@ -1,7 +1,20 @@
 # Changelog
 
-Moonveil changes start here. The entries below this point are the upstream
-Dark Reader changelog, kept for history, and are not edited.
+# Moonveil 0.1.0 (unreleased)
+
+First Moonveil release, forked from Dark Reader 4.9.131.
+
+- New name, icons, wordmark, and interface colors.
+- Chrome, Edge, and Firefox builds with WXT.
+- Removed donation prompts, news feed, anniversary banner, mobile app promotion, paid key activation, and the uninstall page.
+- Site fix lists are downloaded from the Moonveil repository.
+- Fixed solid light background images being replaced with a transparent image instead of a dark color.
+- Fixed inline styles of elements placed directly in a shadow root not being themed.
+- Fixed pages that were opened in the background and then shown staying without the dynamic theme.
+
+---
+
+The entries below are the upstream Dark Reader changelog, kept for history, and are not edited.
 
 # 4.9.131 (September 14, 2026)
 

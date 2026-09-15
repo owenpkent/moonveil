@@ -1,7 +1,7 @@
 {
     "manifest_version": 2,
     "name": "Moonveil",
-    "version": "4.9.131",
+    "version": "0.1.0",
     "author": "Owen Kent",
     "description": "__MSG_extension_description__",
     "default_locale": "en",

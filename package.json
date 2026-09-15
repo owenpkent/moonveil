@@ -1,6 +1,6 @@
 {
   "name": "moonveil",
-  "version": "4.9.131",
+  "version": "0.1.0",
   "description": "Dark mode for every website",
   "private": true,
   "scripts": {
