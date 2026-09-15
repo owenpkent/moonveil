@@ -66,5 +66,10 @@ export function removeDocumentVisibilityListener(): void {
 }
 
 export function documentIsVisible(): boolean {
+    // Document could have been shown before any listener was set,
+    // in which case the visibilitychange event was already missed
+    if (!documentIsVisible_ && !document.hidden) {
+        documentIsVisible_ = true;
+    }
     return documentIsVisible_;
 }
