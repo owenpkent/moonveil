@@ -67,6 +67,12 @@ jobs:
         with:
           chrome-version: ${{ matrix.chrome }}
 
+      # Ubuntu 24.04 blocks unprivileged user namespaces through AppArmor, which
+      # makes Chrome for Testing crash on launch unless its sandbox is disabled.
+      - name: Allow Chrome sandbox
+        if: ${{ matrix.chrome }}
+        run: sudo sysctl -w kernel.apparmor_restrict_unprivileged_userns=0
+
       - name: Configure Karma with path to Chrome executable
         if: ${{ matrix.chrome }}
         run: |
