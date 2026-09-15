@@ -37,6 +37,10 @@ function linuxAppPath(app) {
  * @returns {Promise<string>}
  */
 export async function getChromePath() {
+    // Explicit path, e.g. Chrome for Testing installed in CI
+    if (process.env.CHROME_BIN) {
+        return process.env.CHROME_BIN;
+    }
     if (process.platform === 'darwin') {
         return '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
     }
@@ -79,6 +83,9 @@ export async function getEdgePath() {
  * @returns {Promise<string>}
  */
 export async function getFirefoxPath() {
+    if (process.env.FIREFOX_BIN) {
+        return process.env.FIREFOX_BIN;
+    }
     if (process.platform === 'darwin') {
         return '/Applications/Firefox Nightly.app/Contents/MacOS/firefox';
     }

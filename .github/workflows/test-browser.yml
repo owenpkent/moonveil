@@ -59,6 +59,8 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v4
 
+      # Channel names install Chrome for Testing (branded Chrome ignores --load-extension).
+      # Browser tests pick it up via CHROME_BIN instead of the preinstalled google-chrome.
       - name: Install Chrome
         if: ${{ matrix.chrome }}
         uses: browser-actions/setup-chrome@latest
@@ -97,25 +99,21 @@ jobs:
       - name: Run injection tests
         run: npm run test:inject -- --ci --json --outputFile=test-results-inject.json
 
-      - name: Run browser tests on Chromium MV2 build
-        if: ${{ matrix.chrome }}
-        uses: coactions/setup-xvfb@v1
-        with:
-          run: npm run test:chrome -- --json --outputFile=test-results-chrome.json
-
+      # Browser test steps run even if a previous one failed, so all failures are visible
       - name: Run browser tests on Chromium MV3 build
-        if: ${{ matrix.chrome }}
+        if: ${{ !cancelled() && matrix.chrome }}
         uses: coactions/setup-xvfb@v1
         with:
           run: npm run test:chrome-mv3 -- --json --outputFile=test-results-chrome-mv3.json
 
       - name: Run browser tests on Firefox MV2 build
-        if: ${{ matrix.firefox }}
+        if: ${{ !cancelled() && matrix.firefox }}
         uses: coactions/setup-xvfb@v1
         with:
           run: npm run test:firefox -- --json --outputFile=test-results-firefox-mv2.json
 
       - name: Upload test results
+        if: ${{ !cancelled() }}
         uses: actions/upload-artifact@v4
         with:
           name: test-results-chrome-${{ matrix.chrome }}-firefox-${{ matrix.firefox }}-coverage-${{ matrix.coverage }}

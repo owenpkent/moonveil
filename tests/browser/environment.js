@@ -10,6 +10,8 @@ const TEST_SERVER_PORT = 8891;
 const CORS_SERVER_PORT = 8892;
 const FIREFOX_DEVTOOLS_PORT = 8893;
 const POPUP_TEST_PORT = 8894;
+// Browsers run headed by default (under xvfb in CI), set BROWSER_TESTS_HEADLESS=1 to run without a display
+const HEADLESS = process.env.BROWSER_TESTS_HEADLESS === '1';
 
 export default class CustomJestEnvironment extends TestEnvironment {
     /** @type {() => void} */
@@ -96,7 +98,7 @@ export default class CustomJestEnvironment extends TestEnvironment {
             ],
             enableExtensions: [extensionDir],
             executablePath,
-            headless: false,
+            headless: HEADLESS,
             pipe: true,
         });
     }
@@ -118,7 +120,7 @@ export default class CustomJestEnvironment extends TestEnvironment {
             ],
             enableExtensions: [extensionDir],
             executablePath,
-            headless: false,
+            headless: HEADLESS,
             pipe: true,
         });
     }
@@ -135,7 +137,7 @@ export default class CustomJestEnvironment extends TestEnvironment {
             browser: 'firefox',
             executablePath: firefox,
             protocol: 'webDriverBiDi',
-            headless: false,
+            headless: HEADLESS,
             args: [`--remote-debugging-port=${FIREFOX_DEVTOOLS_PORT}`],
         });
         await browser.installExtension(firefoxExtensionDebugDir);
@@ -314,6 +316,8 @@ export default class CustomJestEnvironment extends TestEnvironment {
             const wsServer = new WebSocketServer({port: POPUP_TEST_PORT});
             let backgroundSocket = null;
             let devToolsSocket = null;
+            /** @type {Array<() => void>} */
+            const devToolsReadyListeners = [];
             const popupSockets = new Set();
             const pageSockets = new Set();
             const resolvers = new Map();
@@ -335,6 +339,7 @@ export default class CustomJestEnvironment extends TestEnvironment {
                     } else if (message.id === null && message.data && message.data.type === 'devtools') {
                         ws.on('close', () => devToolsSocket = null);
                         devToolsSocket = ws;
+                        devToolsReadyListeners.splice(0).forEach((ready) => ready());
                         this.onPageEventResponse(message.data.uuid);
                     } else if (message.id === null && message.data && message.data.type === 'popup') {
                         ws.on('close', () => popupSockets.delete(ws));
@@ -378,8 +383,12 @@ export default class CustomJestEnvironment extends TestEnvironment {
                 return sendToContext(Array.from(popupSockets), type, data);
             }
 
-            function sendToDevTools(type, data) {
-                return sendToContext([devToolsSocket], type, data);
+            async function sendToDevTools(type, data) {
+                // DevTools page connects only after it has rendered, so it may not be ready yet
+                if (!devToolsSocket) {
+                    await new Promise((ready) => devToolsReadyListeners.push(ready));
+                }
+                return await sendToContext([devToolsSocket], type, data);
             }
 
             function sendToBackground(type, data) {

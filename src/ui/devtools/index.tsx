@@ -28,12 +28,15 @@ async function start(): Promise<void> {
     });
 }
 
-start();
+const started = start();
 
 declare const __TEST__: boolean;
 if (__TEST__) {
     const socket = new WebSocket(`ws://localhost:8894`);
     socket.onopen = async () => {
+        // Announce readiness only after the first render, otherwise
+        // the config editor may not exist yet when the first command arrives
+        await started;
         socket.send(JSON.stringify({
             data: {
                 type: 'devtools',

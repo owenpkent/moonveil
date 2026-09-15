@@ -12,7 +12,8 @@ async function getOKResponse(url: string, mimeType?: string, origin?: string): P
     const sameOrigin = origin && url.startsWith(`${origin}/`);
     const credentials = sameOrigin ? undefined : 'omit';
     const redirect = mimeType === 'text/css' ? undefined : 'error';
-    const targetAddressSpace = sameOrigin ? undefined : 'public';
+    // Browser tests load cross-origin resources from localhost
+    const targetAddressSpace = (sameOrigin || __TEST__) ? undefined : 'public';
     const response = await fetch(
         url,
         {
