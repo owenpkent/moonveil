@@ -362,17 +362,18 @@ function getSVGElementRoot(svgElement: SVGElement): SVGSVGElement | null {
 const inlineStringValueCache = new Map<string, Map<string, string>>();
 
 const MAX_LOOP_TEARDOWNS = 10;
-const inlineStyleParents = new Map<HTMLElement, HTMLElement>();
-let parentTeardownCounts = new WeakMap<HTMLElement, number>();
+// Parents are tracked as nodes, since children of a shadow root have no parent element
+const inlineStyleParents = new Map<HTMLElement, Node>();
+let parentTeardownCounts = new WeakMap<Node, number>();
 
 function trackInlineStyleTeardown(element: HTMLElement): void {
-    if (!element.parentElement) {
+    if (!element.parentNode) {
         return;
     }
     if (inlineStyleParents.size === 0) {
         queueMicrotask(checkForTeardown);
     }
-    inlineStyleParents.set(element, element.parentElement);
+    inlineStyleParents.set(element, element.parentNode);
 }
 
 function checkForTeardown() {
@@ -390,7 +391,7 @@ function checkForTeardown() {
 }
 
 function parentHadTeardown(element: HTMLElement): boolean {
-    const parent = element.parentElement;
+    const parent = element.parentNode;
     if (!parent) {
         return true;
     }

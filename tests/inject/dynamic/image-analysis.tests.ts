@@ -51,6 +51,12 @@ const images = {
         '    <rect fill="white" width="100%" height="100%" />',
         '</svg>',
     ),
+    lightPatternIcon: multiline(
+        '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 8 8" width="8" height="8">',
+        '    <rect fill="white" width="100%" height="100%" />',
+        '    <circle fill="#d8d8d8" cx="4" cy="4" r="2" />',
+        '</svg>',
+    ),
     darkTransparentIcon: multiline(
         '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 8 8" width="8" height="8">',
         '    <circle fill="black" cx="4" cy="4" r="3" />',
@@ -242,7 +248,7 @@ describe('IMAGE ANALYSIS', () => {
     it('should handle background-image with URL and gradient', async () => {
         container.innerHTML = multiline(
             '<style>',
-            `    h1 { background-image: url("${svgToDataURL(images.lightIcon)}"), linear-gradient(red, white);`,
+            `    h1 { background-image: url("${svgToDataURL(images.lightPatternIcon)}"), linear-gradient(red, white);`,
             '</style>',
             '<h1>Weird color <strong>Power</strong>!</h1>',
         );
@@ -266,7 +272,7 @@ describe('IMAGE ANALYSIS', () => {
     it('should handle background-image with URL and gradient (revered)', async () => {
         container.innerHTML = multiline(
             '<style>',
-            `    h1 { background-image: linear-gradient(red, white), url("${svgToDataURL(images.lightIcon)}");`,
+            `    h1 { background-image: linear-gradient(red, white), url("${svgToDataURL(images.lightPatternIcon)}");`,
             '</style>',
             '<h1>Weird color <strong>Power</strong>!</h1>',
         );
@@ -279,12 +285,27 @@ describe('IMAGE ANALYSIS', () => {
     it('should handle background-image with empty URLs', async () => {
         container.innerHTML = multiline(
             '<style>',
-            `    h1 { background-image: url(''), url(''), url("${svgToDataURL(images.lightIcon)}");`,
+            `    h1 { background-image: url(''), url(''), url("${svgToDataURL(images.lightPatternIcon)}");`,
             '</style>',
             '<h1>Weird color <strong>Power</strong>!</h1>',
         );
         createOrUpdateDynamicTheme(theme, null, false);
         await waitForEvent('__darkreader__test__asyncQueueComplete');
         expect(getComputedStyle(container.querySelector('h1')!).backgroundImage).toMatch(/^url\(""\), url\(""\), url\("blob:.*"\)$/);
+    });
+
+    it('should replace a solid light image with a dark solid color', async () => {
+        container.innerHTML = multiline(
+            '<style>',
+            `    h1 { background-image: url("${svgToDataURL(images.lightIcon)}");`,
+            '</style>',
+            '<h1>Weird color <strong>Power</strong>!</h1>',
+        );
+        createOrUpdateDynamicTheme(theme, null, false);
+        await waitForEvent('__darkreader__test__asyncQueueComplete');
+        const backgroundImage = getComputedStyle(container.querySelector('h1')!).backgroundImage;
+        const match = backgroundImage.match(/^url\("data:image\/svg\+xml;base64,(.*)"\)$/);
+        expect(match).not.toBeNull();
+        expect(atob(match![1])).toContain('fill="#000000"');
     });
 });
